@@ -1,5 +1,5 @@
 # taskmanagement
-Task and project management app
+
 **Description**: Develop a task management system where users can create, edit, and track their tasks and projects.
 
 **Features**:
