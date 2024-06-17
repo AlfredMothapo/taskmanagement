@@ -19,11 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Data\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Services\" />
-    <Folder Include="Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaskManagement.BL\TaskManagement.BL.csproj" />
+    <ProjectReference Include="..\TaskManagement.DataAccessLayer\TaskManagement.DataAccessLayer.csproj" />
   </ItemGroup>
 
 </Project>

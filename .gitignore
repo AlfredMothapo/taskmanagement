@@ -4,3 +4,8 @@
 
 /.vs
 /TaskManagement.API/.vs/TaskManagement.API
+/TaskManagement.API/TaskManagement.BL/obj
+/TaskManagement.API/TaskManagement.DataAccessLayer/bin/Debug/net8.0
+/TaskManagement.API/TaskManagement.DataAccessLayer/obj
+/TaskManagement.API/.vs/ProjectEvaluation
+/TaskManagement.API/TaskManagement.BL/bin/Debug/net8.0
