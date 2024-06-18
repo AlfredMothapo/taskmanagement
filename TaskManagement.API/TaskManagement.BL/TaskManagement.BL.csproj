@@ -10,4 +10,8 @@
     <Folder Include="DTOs\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TaskManagement.DataAccessLayer\TaskManagement.DataAccessLayer.csproj" />
+  </ItemGroup>
+
 </Project>

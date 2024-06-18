@@ -23,8 +23,19 @@ var app = builder.Build();
 // Apply database migrations automatically on startup
 using (var scope = app.Services.CreateScope())
 {
-    var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
-    runner.MigrateUp();
+    var services = scope.ServiceProvider;
+    try
+    {
+        var connectionString = services.GetRequiredService<IConfiguration>().GetConnectionString("DefaultConnection");
+        var serviceProvider = TaskManagement.DataAccessLayer.Migrations.MigrationRunnerBuilder.CreateServices(connectionString);
+        TaskManagement.DataAccessLayer.Migrations.MigrationRunnerBuilder.MigrateUp(serviceProvider);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating the database.");
+        throw;
+    }
 }
 
 // Configure the HTTP request pipeline.
