@@ -1,4 +1,6 @@
 using FluentMigrator.Runner;
+using TaskManagement.API.Middlewares;
+using TaskManagement.BL.Repositories.TaskRepository;
 using TaskManagement.DataAccessLayer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,10 @@ builder.Services.AddFluentMigratorCore()
         .ScanIn(typeof(Program).Assembly).For.Migrations())
     .AddLogging(lb => lb.AddFluentMigratorConsole());
 
+// Add dependencies to the container
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddSingleton<ITaskRepository>(new TaskRepository(connectionString));
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -26,7 +32,6 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
-        var connectionString = services.GetRequiredService<IConfiguration>().GetConnectionString("DefaultConnection");
         var serviceProvider = TaskManagement.DataAccessLayer.Migrations.MigrationRunnerBuilder.CreateServices(connectionString);
         TaskManagement.DataAccessLayer.Migrations.MigrationRunnerBuilder.MigrateUp(serviceProvider);
     }
@@ -44,6 +49,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
